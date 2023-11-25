@@ -7,15 +7,12 @@ from exceptions import ErreurDate
 
 class Bourse : 
     def prix(self, symbole, d):
-        if d.year - date.today().year > 0 or d.month - date.today().month > 0 or d.day - date.today().day > 0:
+        auj = date.today()
+        if d.year - auj.year > 0 or d.month - auj.month > 0 or d.day - auj.day > 0:
             raise ErreurDate()
         
-        if d.year - date.today().year == 0 and d.month - date.today().month == 0 and d.day - date.today().day == 0:
-            hier = timedelta(days = 2)
-            d -= hier
-
-        if d.year - date.today().year == 0 and d.month - date.today().month == 0 and d.day - date.today().day == -1:
-            hier = timedelta(days = 1)
+        if d.year - auj.year == 0 and d.month - auj.month == 0 and d.day - auj.day == 0:
+            hier = timedelta(days = 3)
             d -= hier
 
         if d.weekday() == 5:
@@ -35,5 +32,5 @@ class Bourse :
 
 
 bourse = Bourse()
-d = date(2023, 11, 26)
+d = date(2023, 11, 25)
 print(bourse.prix('AAPL', d))
