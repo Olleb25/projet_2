@@ -29,8 +29,3 @@ class Bourse :
         reponse = requests.get(url=url, params=params)
         reponse = json.loads(reponse.text)
         return reponse['historique'][d.strftime('%Y-%m-%d')]['fermeture']
-
-
-bourse = Bourse()
-d = date(2023, 11, 25)
-print(bourse.prix('AAPL', d))
