@@ -3,7 +3,6 @@ from exceptions import ErreurDate, LiquiditéInsuffisante, ErreurQuantité
 from datetime import date, timedelta, datetime
 
 class Portefeuille():
-    
     def __init__(self, montant, d = None):
         if d == None:
             d = date.today()
