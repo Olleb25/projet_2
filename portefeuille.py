@@ -59,16 +59,16 @@ class Portefeuille():
         montant_portefeuille = self.I['date'][f'{d}'][f'montant_{d}']
         if montant_total > montant_portefeuille:
             raise LiquiditéInsuffisante()
-        else:
-            self.I['date'][f'{d}'] = {f'montant_{d}' : x[list(x)[0]] - montant_total, f'actions_{d}' :
-                {'A' : x[list(x)[1]]['A'], 'AAPL' : x[list(x)[1]]['AAPL'],
-                    'C' : x[list(x)[1]]['C'], 'GOOG' : x[list(x)[1]]['GOOG'], 'HOG' : x[list(x)[1]]['HOG'],
-                        'HPQ' : x[list(x)[1]]['HPQ'], 'INTC' : x[list(x)[1]]['INTC'], 'IBM' : x[list(x)[1]]['IBM'],
-                            'LUV' : x[list(x)[1]]['LUV'], 'MMM' : x[list(x)[1]]['MMM'], 'MSFT' : x[list(x)[1]]['MSFT'],
-                                'T' : x[list(x)[1]]['T'], 'TGT' : x[list(x)[1]]['TGT'], 'TXN' : x[list(x)[1]]['TXN'],
-                                    'XOM' : x[list(x)[1]]['XOM'], 'WMT' : x[list(x)[1]]['WMT']}}
 
-            self.I['date'][f'{d}'][f'actions_{d}'][symbole] += quantité
+        self.I['date'][f'{d}'] = {f'montant_{d}' : x[list(x)[0]] - montant_total, f'actions_{d}' :
+            {'A' : x[list(x)[1]]['A'], 'AAPL' : x[list(x)[1]]['AAPL'],
+                'C' : x[list(x)[1]]['C'], 'GOOG' : x[list(x)[1]]['GOOG'], 'HOG' : x[list(x)[1]]['HOG'],
+                    'HPQ' : x[list(x)[1]]['HPQ'], 'INTC' : x[list(x)[1]]['INTC'], 'IBM' : x[list(x)[1]]['IBM'],
+                        'LUV' : x[list(x)[1]]['LUV'], 'MMM' : x[list(x)[1]]['MMM'], 'MSFT' : x[list(x)[1]]['MSFT'],
+                            'T' : x[list(x)[1]]['T'], 'TGT' : x[list(x)[1]]['TGT'], 'TXN' : x[list(x)[1]]['TXN'],
+                                'XOM' : x[list(x)[1]]['XOM'], 'WMT' : x[list(x)[1]]['WMT']}}
+
+        self.I['date'][f'{d}'][f'actions_{d}'][symbole] += quantité
 
     def vendre(self, symbole, quantité = 0, d = None):
         if d is None:
@@ -83,15 +83,15 @@ class Portefeuille():
 
         if self.I['date'][f'{d}'][f'actions_{d}'][symbole] < quantité:
             raise ErreurQuantité()
-        else:
-            self.I['date'][f'{d}'] = {f'montant_{d}' : x[list(x)[0]] + montant_total, f'actions_{d}' : {'A' : x[list(x)[1]]['A'],
-            'AAPL' : x[list(x)[1]]['AAPL'], 'C' : x[list(x)[1]]['C'], 'GOOG' : x[list(x)[1]]['GOOG'], 'HOG' : x[list(x)[1]]['HOG'],
-                'HPQ' : x[list(x)[1]]['HPQ'], 'INTC' : x[list(x)[1]]['INTC'], 'IBM' : x[list(x)[1]]['IBM'],
-                    'LUV' : x[list(x)[1]]['LUV'], 'MMM' : x[list(x)[1]]['MMM'], 'MSFT' : x[list(x)[1]]['MSFT'],
-                        'T' : x[list(x)[1]]['T'], 'TGT' : x[list(x)[1]]['TGT'], 'TXN' : x[list(x)[1]]['TXN'],
-                            'XOM' : x[list(x)[1]]['XOM'], 'WMT' : x[list(x)[1]]['WMT']}}
 
-            self.I['date'][f'{d}'][f'actions_{d}'][symbole] -= quantité
+        self.I['date'][f'{d}'] = {f'montant_{d}' : x[list(x)[0]] + montant_total, f'actions_{d}' : {'A' : x[list(x)[1]]['A'],
+        'AAPL' : x[list(x)[1]]['AAPL'], 'C' : x[list(x)[1]]['C'], 'GOOG' : x[list(x)[1]]['GOOG'], 'HOG' : x[list(x)[1]]['HOG'],
+            'HPQ' : x[list(x)[1]]['HPQ'], 'INTC' : x[list(x)[1]]['INTC'], 'IBM' : x[list(x)[1]]['IBM'],
+                'LUV' : x[list(x)[1]]['LUV'], 'MMM' : x[list(x)[1]]['MMM'], 'MSFT' : x[list(x)[1]]['MSFT'],
+                    'T' : x[list(x)[1]]['T'], 'TGT' : x[list(x)[1]]['TGT'], 'TXN' : x[list(x)[1]]['TXN'],
+                        'XOM' : x[list(x)[1]]['XOM'], 'WMT' : x[list(x)[1]]['WMT']}}
+
+        self.I['date'][f'{d}'][f'actions_{d}'][symbole] -= quantité
 
     def valeur_totale(self, d = None):
         if d is None:
@@ -155,7 +155,7 @@ class Portefeuille():
         y = int(différence.days/365)
         day = int(différence.days - y*365)
 
-        if type(rendement) == type(1.0):
+        if isinstance(rendement, float):
             valeur_totale_titres = 0
             for i in titres:
                 valeur_totale_titres += self.bourse.prix(i, da) * titres[i]
@@ -164,7 +164,7 @@ class Portefeuille():
             valeur_totale += (day / 365) * valeur_totale_titres * (rendement/100)
             return valeur_totale
 
-        elif type(rendement) == type({}):
+        elif isinstance(rendement, dict):
             valeur_totale_titres = {}
             for i in titres:
                 valeur_totale_titres[i] = self.bourse.prix(i, da) * titres[i]
