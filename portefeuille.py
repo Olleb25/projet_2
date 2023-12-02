@@ -164,7 +164,7 @@ class Portefeuille():
             valeur_totale += (day / 365) * valeur_totale_titres * (rendement/100)
             return valeur_totale
 
-        elif isinstance(rendement, dict):
+        if isinstance(rendement, dict):
             valeur_totale_titres = {}
             for i in titres:
                 valeur_totale_titres[i] = self.bourse.prix(i, da) * titres[i]
