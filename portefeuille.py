@@ -1,6 +1,6 @@
+from datetime import date, timedelta, datetime
 from bourse import Bourse
 from exceptions import ErreurDate, LiquiditéInsuffisante, ErreurQuantité
-from datetime import date, timedelta, datetime
 
 class Portefeuille():
     def __init__(self, montant, d = None):
@@ -9,9 +9,10 @@ class Portefeuille():
         elif d.year - date.today().year > 0 or d.month - date.today().month > 0 or d.day - date.today().day > 0:
             raise ErreurDate()
         self.bourse = Bourse()
-        self.I = {'date' : {f'{d}' : {f'montant_{d}' : montant, f'actions_{d}' : {'A' : 0, 'AAPL' : 0, 'C' : 0,
-            'GOOG' : 0, 'HOG' : 0, 'HPQ' : 0, 'INTC' : 0, 'IBM' : 0, 'LUV' : 0, 'MMM' : 0, 'MSFT' : 0,
-                'T' : 0, 'TGT' : 0, 'TXN' : 0, 'XOM' : 0, 'WMT' : 0}}}}
+        self.I = {'date' : {f'{d}' : {f'montant_{d}' : montant, f'actions_{d}' : {'A' : 0,
+            'AAPL' : 0, 'C' : 0, 'GOOG' : 0, 'HOG' : 0, 'HPQ' : 0, 'INTC' : 0,
+                'IBM' : 0, 'LUV' : 0, 'MMM' : 0, 'MSFT' : 0, 'T' : 0,
+                    'TGT' : 0, 'TXN' : 0, 'XOM' : 0, 'WMT' : 0}}}}
 
     def __interval(self, d2):
         d1 = datetime.strptime(list(self.I['date'])[-1], '%Y-%m-%d').date()
@@ -87,7 +88,7 @@ class Portefeuille():
                     'LUV' : x[list(x)[1]]['LUV'], 'MMM' : x[list(x)[1]]['MMM'], 'MSFT' : x[list(x)[1]]['MSFT'],
                         'T' : x[list(x)[1]]['T'], 'TGT' : x[list(x)[1]]['TGT'], 'TXN' : x[list(x)[1]]['TXN'],
                             'XOM' : x[list(x)[1]]['XOM'], 'WMT' : x[list(x)[1]]['WMT']}}
-            
+
             self.I['date'][f'{d}'][f'actions_{d}'][symbole] -= quantité
 
     def valeur_totale(self, d = None):
